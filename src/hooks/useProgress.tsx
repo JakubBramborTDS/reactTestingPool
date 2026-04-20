@@ -2,31 +2,20 @@ import { useState, useEffect } from 'react';
 
 /**
  * Hook for generating progress bar.
- * @param durationMS - time in miliseconds, default to 3 seconds.
+ *
  */
-export const useProgress = (durationMs: number = 3000) => {
-  const [progress, setProgress] = useState(0);
-  const [isFinished, setIsFinished] = useState(false);
+export const useProgress = (speed = 10, maxSteps = 20) => {
+  const [currentStep, setCurrentStep] = useState(0);
 
   useEffect(() => {
-    const intervalTime = durationMs / 100;
+    if (currentStep >= maxSteps) return;
+    const timeout = setTimeout(() => setCurrentStep((prev) => prev + 1), speed);
+    return () => clearTimeout(timeout);
+  }, [currentStep, maxSteps, speed]);
 
-    const timer = setInterval(() => {
-      setProgress((prev) => {
-        if (prev >= 100) {
-          clearInterval(timer);
-          setIsFinished(true);
-          return 100;
-        }
-        return prev + 1;
-      });
-    }, intervalTime);
-
-    return () => {
-      clearInterval(timer);
-      setProgress(0);
-      setIsFinished(false);
-    };
-  }, [durationMs]);
-  return { progress, isFinished };
+  return {
+    currentStep,
+    totalSteps: maxSteps,
+    isFinished: currentStep >= maxSteps,
+  };
 };
