@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import "./App.css";
+import "98.css";
 import DefaultButton from "./components/DefaultButton";
 
 function App() {
