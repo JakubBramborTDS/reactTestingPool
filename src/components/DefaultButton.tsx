@@ -1,7 +1,3 @@
-const DefaultButton = () => {
-  return (
-  <button>Click me</button>
-);
+export const DefaultButton = () => {
+  return <button>Click me</button>;
 };
-
-export default DefaultButton;
